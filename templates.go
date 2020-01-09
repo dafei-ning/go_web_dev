@@ -31,4 +31,30 @@ func main() {
 	}
 	defer nf.Close()
 
+	// 在原tpl的基础上，可以再用同样的方法parse 其他template.
+	tpl, err = tpl.ParseFiles("templates/tpl2.gohtml", "templates/tpl3.gohtml")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	// 也可以直接parse指定文件夹所有template.
+	tpl, err = tpl.ParseGlob("templates/*")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// 执行的时候根据template各自的名称来执行对应tpl.
+	err = tpl.ExecuteTemplate(os.Stdout, "tpl2.gohtml", nil)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	err = tpl.ExecuteTemplate(os.Stdout, "tpl3.gohtml", nil)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	//如果未指定，并在很多template的情况下，会默认执行第一个.
+	err = tpl.Execute(os.Stdout, nil)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
