@@ -52,8 +52,10 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	//如果未指定，并在很多template的情况下，会默认执行第一个.
-	err = tpl.Execute(os.Stdout, nil)
+	// 如果未指定，并在很多template的情况下，会默认执行第一个.
+	// 如果有数据，可以将数据传入template中的{{.}}里.
+	// 在template里可以assign value 给var，{{$var_a := .}}.
+	err = tpl.Execute(os.Stdout, "James Bond")
 	if err != nil {
 		log.Fatalln(err)
 	}
