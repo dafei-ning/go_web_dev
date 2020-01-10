@@ -2,13 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Languages</title>
+    <title>Language & OS</title>
 </head>
 <body>
+
 <ul>
-    {{range .}}
+    {{range .Languages}}
     <li>{{.Name}}-{{.Efficiency}}-{{.Developer_friendly}}</li>
     {{end}}
 </ul>
+
+<ul>
+    {{range .OSs}}
+    <li>{{.Name}}-{{.Popularity}}</li>
+    {{end}}
+</ul>
+
 </body>
 </html>

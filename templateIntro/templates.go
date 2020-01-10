@@ -8,10 +8,20 @@ import (
 
 var tpl *template.Template
 
-type language struct {
+type Language struct {
 	Name               string
 	Efficiency         string
 	Developer_friendly bool
+}
+
+type OS struct {
+	Name       string
+	Popularity string
+}
+
+type LanOS struct {
+	Languages []Language
+	OSs       []OS
 }
 
 func init() {
@@ -122,7 +132,7 @@ func main() {
 	// {{$z := .Developer_friendly}}
 	// <li>{{$x}} -  {{$y}} - {{$z}}</li>
 	tplStruct := template.Must(template.ParseFiles("templates/tplStruct.gohtml"))
-	_struct1 := language{
+	_struct1 := Language{
 		Name:               "C++",
 		Efficiency:         "high",
 		Developer_friendly: false,
@@ -133,7 +143,7 @@ func main() {
 	}
 
 	tplStruct2 := template.Must(template.ParseFiles("templates/tplStruct2.gohtml"))
-	_struct2 := language{
+	_struct2 := Language{
 		Name:               "Java",
 		Efficiency:         "high",
 		Developer_friendly: true,
@@ -143,25 +153,48 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	// struct slice
+	// struct slice -
 	// <li>{{.Name}}-{{.Efficiency}}-{{.Developer_friendly}}</li> ==> {{range .}}
-	_struct3 := language{
+	_struct3 := Language{
 		Name:               "Go",
 		Efficiency:         "high",
 		Developer_friendly: true,
 	}
 
-	_struct4 := language{
+	_struct4 := Language{
 		Name:               "Python",
 		Efficiency:         "low",
 		Developer_friendly: true,
 	}
 
 	tplStructSlice := template.Must(template.ParseFiles("templates/tplStructSlice.gohtml"))
-	_structSlice := []language{_struct1, _struct2, _struct3, _struct4}
+	_structSlice := []Language{_struct1, _struct2, _struct3, _struct4}
 	err = tplStructSlice.Execute(os.Stdout, _structSlice)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
+	// Struct Slice Struct -
+	_struct5 := OS{
+		Name:       "Windows",
+		Popularity: "Common users",
+	}
+
+	_struct6 := OS{
+		Name:       "Linux",
+		Popularity: "Developer users",
+	}
+
+	_languages := []Language{_struct1, _struct2, _struct3, _struct4}
+	_OSs := []OS{_struct5, _struct6}
+	_lanOS := LanOS{
+		Languages: _languages,
+		OSs:       _OSs,
+	}
+
+	tplStructSliceStruct := template.Must(template.ParseFiles("templates/tplStructSliceStruct.gohtml"))
+	err = tplStructSliceStruct.Execute(os.Stdout, _lanOS)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
