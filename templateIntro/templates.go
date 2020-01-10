@@ -116,6 +116,10 @@ func main() {
 
 	// struct -
 	// <li>{{.Name}} - {{.Efficiency}} - {{.Developer_friendly}}</li>
+	// {{$x := .Name}}
+	// {{$y := .Efficiency}}
+	// {{$z := .Developer_friendly}}
+	// <li>{{$x}} -  {{$y}} - {{$z}}</li>
 	tplStruct := template.Must(template.ParseFiles("templates/tplStruct.gohtml"))
 	_struct1 := language{
 		Name:               "C++",
