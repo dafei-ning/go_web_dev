@@ -116,6 +116,7 @@ func main() {
 
 	// struct -
 	// <li>{{.Name}} - {{.Efficiency}} - {{.Developer_friendly}}</li>
+	//
 	// {{$x := .Name}}
 	// {{$y := .Efficiency}}
 	// {{$z := .Developer_friendly}}
@@ -138,6 +139,27 @@ func main() {
 		Developer_friendly: true,
 	}
 	err = tplStruct2.Execute(os.Stdout, _struct2)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// struct slice
+	// <li>{{.Name}}-{{.Efficiency}}-{{.Developer_friendly}}</li> ==> {{range .}}
+	_struct3 := language{
+		Name:               "Go",
+		Efficiency:         "high",
+		Developer_friendly: true,
+	}
+
+	_struct4 := language{
+		Name:               "Python",
+		Efficiency:         "low",
+		Developer_friendly: true,
+	}
+
+	tplStructSlice := template.Must(template.ParseFiles("templates/tplStructSlice.gohtml"))
+	_structSlice := []language{_struct1, _struct2, _struct3, _struct4}
+	err = tplStructSlice.Execute(os.Stdout, _structSlice)
 	if err != nil {
 		log.Fatalln(err)
 	}

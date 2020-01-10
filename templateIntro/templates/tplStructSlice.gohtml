@@ -6,10 +6,9 @@
 </head>
 <body>
 <ul>
-    {{$x := .Name}}
-    {{$y := .Efficiency}}
-    {{$z := .Developer_friendly}}
-    <li>{{$x}}-{{$y}}-{{$z}}</li>
+    {{range .}}
+    <li>{{.Name}}-{{.Efficiency}}-{{.Developer_friendly}}</li>
+    {{end}}
 </ul>
 </body>
 </html>
