@@ -52,10 +52,54 @@ func main() {
 		log.Fatalln(err)
 	}
 
+	/*
+	 * 关于 passing data
+	 */
+
 	// 如果未指定，并在很多template的情况下，会默认执行第一个.
 	// 如果有数据，可以将数据传入template中的{{.}}里.
 	// 在template里可以assign value 给var，{{$var_a := .}}.
 	err = tpl.Execute(os.Stdout, "James Bond")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// slice - <li>{{.}}</li> ==> {{range .}}, {{range $index, $element := .}}
+	tplSlice := template.Must(template.ParseFiles("templates/tplSlice.gohtml"))
+	_slice := []string{"hello", "world", "is", "shit"}
+	err = tplSlice.Execute(os.Stdout, _slice)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	tplSlice2 := template.Must(template.ParseFiles("templates/tplSlice2.gohtml"))
+	_slice2 := []string{"hello", "world", "is", "shit"}
+	err = tplSlice2.Execute(os.Stdout, _slice2)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	// map - <li>{{.}}</li> ==> {{range .}}, <li>{{$key}} -  {{$val}}</li> => {{range $key, $val := .}}
+	tplMap := template.Must(template.ParseFiles("templates/tplMap.gohtml"))
+	_map := map[string]string{
+		"C++":  "No1",
+		"Go":   "No2",
+		"Java": "No3",
+		"Dart": "No4",
+	}
+	err = tplMap.Execute(os.Stdout, _map)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	tplMap2 := template.Must(template.ParseFiles("templates/tplMap2.gohtml"))
+	_map2 := map[string]string{
+		"C++":  "No1",
+		"Go":   "No2",
+		"Java": "No3",
+		"Dart": "No4",
+	}
+	err = tplMap2.Execute(os.Stdout, _map2)
 	if err != nil {
 		log.Fatalln(err)
 	}
