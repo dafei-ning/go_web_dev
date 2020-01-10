@@ -8,6 +8,12 @@ import (
 
 var tpl *template.Template
 
+type language struct {
+	Name               string
+	Efficiency         string
+	Developer_friendly bool
+}
+
 func init() {
 	_tpl, _err := template.ParseFiles("templates/tpl1.gohtml")
 	tpl = template.Must(_tpl, _err)
@@ -54,6 +60,7 @@ func main() {
 
 	/*
 	 * 关于 passing data
+	 * Slice, Map, Struct
 	 */
 
 	// 如果未指定，并在很多template的情况下，会默认执行第一个.
@@ -64,7 +71,8 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	// slice - <li>{{.}}</li> ==> {{range .}}, {{range $index, $element := .}}
+	// slice -
+	// <li>{{.}}</li> ==> {{range .}}, {{range $index, $element := .}}
 	tplSlice := template.Must(template.ParseFiles("templates/tplSlice.gohtml"))
 	_slice := []string{"hello", "world", "is", "shit"}
 	err = tplSlice.Execute(os.Stdout, _slice)
@@ -79,7 +87,9 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	// map - <li>{{.}}</li> ==> {{range .}}, <li>{{$key}} -  {{$val}}</li> => {{range $key, $val := .}}
+	// map -
+	// <li>{{.}}</li> ==> {{range .}},
+	// <li>{{$key}} -  {{$val}}</li> => {{range $key, $val := .}}
 	tplMap := template.Must(template.ParseFiles("templates/tplMap.gohtml"))
 	_map := map[string]string{
 		"C++":  "No1",
@@ -87,7 +97,7 @@ func main() {
 		"Java": "No3",
 		"Dart": "No4",
 	}
-	err = tplMap.Execute(os.Stdout, _map)
+	err = tplMap.Execute(os.Stdout, _map) // all values.
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -99,8 +109,33 @@ func main() {
 		"Java": "No3",
 		"Dart": "No4",
 	}
-	err = tplMap2.Execute(os.Stdout, _map2)
+	err = tplMap2.Execute(os.Stdout, _map2) // all key - value pair.
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	// struct -
+	// <li>{{.Name}} - {{.Efficiency}} - {{.Developer_friendly}}</li>
+	tplStruct := template.Must(template.ParseFiles("templates/tplStruct.gohtml"))
+	_struct1 := language{
+		Name:               "C++",
+		Efficiency:         "high",
+		Developer_friendly: false,
+	}
+	err = tplStruct.Execute(os.Stdout, _struct1)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	tplStruct2 := template.Must(template.ParseFiles("templates/tplStruct2.gohtml"))
+	_struct2 := language{
+		Name:               "Java",
+		Efficiency:         "high",
+		Developer_friendly: true,
+	}
+	err = tplStruct2.Execute(os.Stdout, _struct2)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 }
